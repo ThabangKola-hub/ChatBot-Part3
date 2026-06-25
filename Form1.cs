@@ -139,5 +139,68 @@ namespace ChatBot {
 
 
         }
+
+        private void btnCompleteTask_Click(object sender, EventArgs e)
+        {
+
+            // Make sure a task is selected
+            if (lstTasks.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a task.");
+                return;
+            }
+
+            // Find the selected task
+            TaskItem selectedTask = tasks[lstTasks.SelectedIndex];
+
+            // Mark task as completed
+            selectedTask.IsCompleted = true;
+
+            // Update ListBox display
+            lstTasks.Items[lstTasks.SelectedIndex] =
+                "[Completed]" + selectedTask.Title;
+
+            // Log activity
+            ActivityLogger.Log(
+                "Task Completed: " + selectedTask.Title
+            );
+
+            MessageBox.Show("Task marked as completed.");
+
+
+
+        }
+
+        private void btnDeleteTask_Click(object sender, EventArgs e)
+        {
+
+            // Make sure user selected a task
+            if (lstTasks.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a task.");
+                return;
+            }
+
+            // Save title before deleting
+            string deletedTask =
+                tasks[lstTasks.SelectedIndex].Title;
+
+            // Remove task from List
+            tasks.RemoveAt(lstTasks.SelectedIndex);
+
+            // Remove task from ListBox
+            lstTasks.Items.RemoveAt(lstTasks.SelectedIndex);
+
+            // Log activity
+            ActivityLogger.Log(
+                "Task Deleted: " + deletedTask
+            );
+
+            MessageBox.Show("Task deleted.");
+
+
+
+
+        }
     }
 }

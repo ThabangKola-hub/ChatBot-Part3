@@ -38,6 +38,8 @@
             txtTask = new TextBox();
             btnAddTask = new Button();
             lstTasks = new ListBox();
+            btnCompleteTask = new Button();
+            btnDeleteTask = new Button();
             SuspendLayout();
             // 
             // btnSend
@@ -109,7 +111,8 @@
             // 
             label2.AutoSize = true;
             label2.BorderStyle = BorderStyle.Fixed3D;
-            label2.Location = new Point(12, 399);
+            label2.ForeColor = Color.Cyan;
+            label2.Location = new Point(752, 116);
             label2.Name = "label2";
             label2.Size = new Size(110, 22);
             label2.TabIndex = 6;
@@ -117,15 +120,15 @@
             // 
             // txtTask
             // 
-            txtTask.Location = new Point(142, 401);
+            txtTask.Location = new Point(880, 116);
             txtTask.Name = "txtTask";
-            txtTask.Size = new Size(251, 27);
+            txtTask.Size = new Size(310, 27);
             txtTask.TabIndex = 7;
             // 
             // btnAddTask
             // 
             btnAddTask.ForeColor = Color.Black;
-            btnAddTask.Location = new Point(287, 453);
+            btnAddTask.Location = new Point(1196, 116);
             btnAddTask.Name = "btnAddTask";
             btnAddTask.Size = new Size(94, 29);
             btnAddTask.TabIndex = 8;
@@ -136,10 +139,30 @@
             // lstTasks
             // 
             lstTasks.FormattingEnabled = true;
-            lstTasks.Location = new Point(12, 453);
+            lstTasks.Location = new Point(880, 168);
             lstTasks.Name = "lstTasks";
-            lstTasks.Size = new Size(239, 124);
+            lstTasks.Size = new Size(310, 164);
             lstTasks.TabIndex = 9;
+            // 
+            // btnCompleteTask
+            // 
+            btnCompleteTask.Location = new Point(880, 369);
+            btnCompleteTask.Name = "btnCompleteTask";
+            btnCompleteTask.Size = new Size(130, 29);
+            btnCompleteTask.TabIndex = 10;
+            btnCompleteTask.Text = "Complete Task";
+            btnCompleteTask.UseVisualStyleBackColor = true;
+            btnCompleteTask.Click += btnCompleteTask_Click;
+            // 
+            // btnDeleteTask
+            // 
+            btnDeleteTask.Location = new Point(1096, 369);
+            btnDeleteTask.Name = "btnDeleteTask";
+            btnDeleteTask.Size = new Size(94, 29);
+            btnDeleteTask.TabIndex = 11;
+            btnDeleteTask.Text = "Delete Task";
+            btnDeleteTask.UseVisualStyleBackColor = true;
+            btnDeleteTask.Click += btnDeleteTask_Click;
             // 
             // Form1
             // 
@@ -147,6 +170,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1340, 589);
+            Controls.Add(btnDeleteTask);
+            Controls.Add(btnCompleteTask);
             Controls.Add(lstTasks);
             Controls.Add(btnAddTask);
             Controls.Add(txtTask);
@@ -157,7 +182,7 @@
             Controls.Add(richTextBox1);
             Controls.Add(label1);
             Controls.Add(btnSend);
-            ForeColor = Color.Cyan;
+            ForeColor = Color.Black;
             Name = "Form1";
             Text = "Cyber Security Awareness Bot";
             Load += Form1_Load;
@@ -177,5 +202,7 @@
         private TextBox txtTask;
         private Button btnAddTask;
         private ListBox lstTasks;
+        private Button btnCompleteTask;
+        private Button btnDeleteTask;
     }
 }

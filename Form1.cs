@@ -131,7 +131,7 @@ namespace ChatBot {
             tasks.Add(task);
 
             //Displaying task in ListBox
-            lstTasks.Items.Add( $"{task.Title} (Due: {task.ReminderDate.ToShortDateString()})"
+            lstTasks.Items.Add($"{task.Title} (Due: {task.ReminderDate.ToShortDateString()})"
 );
 
             // Record activity in the Activity Logger
@@ -208,6 +208,32 @@ namespace ChatBot {
 
 
 
+        }
+
+        private void btnViewLog_Click(object sender, EventArgs e)
+        {
+
+            // Retrieve all activities
+            List<string> logs = ActivityLogger.GetActivities();
+
+            // If no activities exist
+            if (logs.Count == 0)
+            {
+                MessageBox.Show("No activities recorded.");
+                return;
+            }
+
+            // Build activity report
+            string report = string.Join(
+                Environment.NewLine,
+                logs
+            );
+
+            // Display report
+            MessageBox.Show(
+                report,
+                "Activity Log"
+            );
         }
     }
 }

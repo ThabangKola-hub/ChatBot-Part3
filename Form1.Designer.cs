@@ -41,6 +41,7 @@
             btnCompleteTask = new Button();
             btnDeleteTask = new Button();
             dtpReminder = new DateTimePicker();
+            btnViewLog = new Button();
             SuspendLayout();
             // 
             // btnSend
@@ -172,12 +173,23 @@
             dtpReminder.Size = new Size(250, 27);
             dtpReminder.TabIndex = 12;
             // 
+            // btnViewLog
+            // 
+            btnViewLog.Location = new Point(893, 447);
+            btnViewLog.Name = "btnViewLog";
+            btnViewLog.Size = new Size(191, 29);
+            btnViewLog.TabIndex = 13;
+            btnViewLog.Text = "View Activity Log";
+            btnViewLog.UseVisualStyleBackColor = true;
+            btnViewLog.Click += btnViewLog_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1340, 589);
+            Controls.Add(btnViewLog);
             Controls.Add(dtpReminder);
             Controls.Add(btnDeleteTask);
             Controls.Add(btnCompleteTask);
@@ -214,5 +226,6 @@
         private Button btnCompleteTask;
         private Button btnDeleteTask;
         private DateTimePicker dtpReminder;
+        private Button btnViewLog;
     }
 }

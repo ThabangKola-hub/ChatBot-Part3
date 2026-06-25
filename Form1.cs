@@ -112,20 +112,27 @@ namespace ChatBot {
                 return;
             }
 
-            // Creating a new TaskItem object
+            // Creating a new Task Item 
             TaskItem task = new TaskItem
             {
                 Title = txtTask.Text,
+
+                // Default description
                 Description = "Cybersecurity Task",
-                ReminderDate = DateTime.Now,
+
+                // Date chosen by user
+                ReminderDate = dtpReminder.Value,
+
                 IsCompleted = false
             };
+
 
             //Storing task in List<TaskItem>
             tasks.Add(task);
 
             //Displaying task in ListBox
-            lstTasks.Items.Add(task.Title);
+            lstTasks.Items.Add( $"{task.Title} (Due: {task.ReminderDate.ToShortDateString()})"
+);
 
             // Record activity in the Activity Logger
             ActivityLogger.Log("Task Added: " + task.Title);

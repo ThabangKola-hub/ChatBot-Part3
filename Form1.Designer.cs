@@ -40,6 +40,7 @@
             lstTasks = new ListBox();
             btnCompleteTask = new Button();
             btnDeleteTask = new Button();
+            dtpReminder = new DateTimePicker();
             SuspendLayout();
             // 
             // btnSend
@@ -146,7 +147,7 @@
             // 
             // btnCompleteTask
             // 
-            btnCompleteTask.Location = new Point(880, 369);
+            btnCompleteTask.Location = new Point(880, 348);
             btnCompleteTask.Name = "btnCompleteTask";
             btnCompleteTask.Size = new Size(130, 29);
             btnCompleteTask.TabIndex = 10;
@@ -156,7 +157,7 @@
             // 
             // btnDeleteTask
             // 
-            btnDeleteTask.Location = new Point(1096, 369);
+            btnDeleteTask.Location = new Point(1096, 350);
             btnDeleteTask.Name = "btnDeleteTask";
             btnDeleteTask.Size = new Size(94, 29);
             btnDeleteTask.TabIndex = 11;
@@ -164,12 +165,20 @@
             btnDeleteTask.UseVisualStyleBackColor = true;
             btnDeleteTask.Click += btnDeleteTask_Click;
             // 
+            // dtpReminder
+            // 
+            dtpReminder.Location = new Point(940, 72);
+            dtpReminder.Name = "dtpReminder";
+            dtpReminder.Size = new Size(250, 27);
+            dtpReminder.TabIndex = 12;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1340, 589);
+            Controls.Add(dtpReminder);
             Controls.Add(btnDeleteTask);
             Controls.Add(btnCompleteTask);
             Controls.Add(lstTasks);
@@ -204,5 +213,6 @@
         private ListBox lstTasks;
         private Button btnCompleteTask;
         private Button btnDeleteTask;
+        private DateTimePicker dtpReminder;
     }
 }

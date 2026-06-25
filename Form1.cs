@@ -24,6 +24,9 @@ namespace ChatBot {
 
         private CyberBot bot = new CyberBot();
 
+        //Collection to hold taskItem Objects or task storage
+        private List<TaskItem> tasks = new List<TaskItem>();
+
         public Form1()
         {
             InitializeComponent();
@@ -51,8 +54,8 @@ namespace ChatBot {
             if (string.IsNullOrWhiteSpace(userMessage))
             {
                 MessageBox.Show("Please enter a message.");
-                return; 
-                           }
+                return;
+            }
 
             // Display user message
             AppendUserMessage(userMessage);
@@ -92,6 +95,49 @@ namespace ChatBot {
         private void btnClear_Click(object sender, EventArgs e)
         {
             richTextBox1.Clear();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddTask_Click(object sender, EventArgs e)
+        {
+
+            // Checking if the user entered a task
+            if (string.IsNullOrWhiteSpace(txtTask.Text))
+            {
+                MessageBox.Show("Please enter a task.");
+                return;
+            }
+
+            // Creating a new TaskItem object
+            TaskItem task = new TaskItem
+            {
+                Title = txtTask.Text,
+                Description = "Cybersecurity Task",
+                ReminderDate = DateTime.Now,
+                IsCompleted = false
+            };
+
+            //Storing task in List<TaskItem>
+            tasks.Add(task);
+
+            //Displaying task in ListBox
+            lstTasks.Items.Add(task.Title);
+
+            // Record activity in the Activity Logger
+            ActivityLogger.Log("Task Added: " + task.Title);
+
+            // Clear textbox for next task
+            txtTask.Clear();
+
+            //Confirmation that task was saved
+            MessageBox.Show("Task added successfully!");
+
+
+
         }
     }
 }

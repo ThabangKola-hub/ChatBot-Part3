@@ -34,6 +34,10 @@
             txtUserInput = new TextBox();
             btnClear = new Button();
             btnExit = new Button();
+            label2 = new Label();
+            txtTask = new TextBox();
+            btnAddTask = new Button();
+            lstTasks = new ListBox();
             SuspendLayout();
             // 
             // btnSend
@@ -68,9 +72,10 @@
             richTextBox1.Location = new Point(12, 37);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(599, 307);
+            richTextBox1.Size = new Size(722, 307);
             richTextBox1.TabIndex = 2;
             richTextBox1.Text = "";
+            richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // txtUserInput
             // 
@@ -92,7 +97,7 @@
             // btnExit
             // 
             btnExit.ForeColor = Color.Black;
-            btnExit.Location = new Point(12, 415);
+            btnExit.Location = new Point(640, 350);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(94, 29);
             btnExit.TabIndex = 5;
@@ -100,12 +105,52 @@
             btnExit.UseVisualStyleBackColor = true;
             btnExit.Click += btnExit_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BorderStyle = BorderStyle.Fixed3D;
+            label2.Location = new Point(12, 399);
+            label2.Name = "label2";
+            label2.Size = new Size(110, 22);
+            label2.TabIndex = 6;
+            label2.Text = "Task Assistance";
+            // 
+            // txtTask
+            // 
+            txtTask.Location = new Point(142, 401);
+            txtTask.Name = "txtTask";
+            txtTask.Size = new Size(251, 27);
+            txtTask.TabIndex = 7;
+            // 
+            // btnAddTask
+            // 
+            btnAddTask.ForeColor = Color.Black;
+            btnAddTask.Location = new Point(287, 453);
+            btnAddTask.Name = "btnAddTask";
+            btnAddTask.Size = new Size(94, 29);
+            btnAddTask.TabIndex = 8;
+            btnAddTask.Text = "Add Task";
+            btnAddTask.UseVisualStyleBackColor = true;
+            btnAddTask.Click += btnAddTask_Click;
+            // 
+            // lstTasks
+            // 
+            lstTasks.FormattingEnabled = true;
+            lstTasks.Location = new Point(12, 453);
+            lstTasks.Name = "lstTasks";
+            lstTasks.Size = new Size(239, 124);
+            lstTasks.TabIndex = 9;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(832, 500);
+            ClientSize = new Size(1340, 589);
+            Controls.Add(lstTasks);
+            Controls.Add(btnAddTask);
+            Controls.Add(txtTask);
+            Controls.Add(label2);
             Controls.Add(btnExit);
             Controls.Add(btnClear);
             Controls.Add(txtUserInput);
@@ -128,5 +173,9 @@
         private TextBox txtUserInput;
         private Button btnClear;
         private Button btnExit;
+        private Label label2;
+        private TextBox txtTask;
+        private Button btnAddTask;
+        private ListBox lstTasks;
     }
 }

@@ -18,7 +18,12 @@ namespace ChatBot
 
         //Temporary storage
         private string currentTaskTitle = "";
-        private string currentTaskDescription = "";
+        // Chat-based task creation
+        private bool waitingForTaskConfirmation = false;
+
+        // Commands for Form1
+        public string PendingTaskTitle => currentTaskTitle;
+       
 
 
 
@@ -142,6 +147,7 @@ namespace ChatBot
 
 
         public string GetResponse(string userInput)
+
         {
             userInput = userInput.ToLower();
             string detectedTopic = DetectTopic(userInput);
@@ -152,18 +158,34 @@ namespace ChatBot
                 return
             @"I can help you with:
 
+Cybersecurity
+--------------
 • Password safety
-• Phishing awareness
+• Phishing
 • Safe browsing
+
+Task Management
+---------------
 • Add task
 • Show tasks
 • Complete task
 • Delete task
+
+Learning
+--------
 • Quiz
 • Activity log
 
-Simply type what you'd like to do!";
+Examples:
+---------
+password
+phishing
+safe browsing
+add task
+show tasks
+quiz";
             }
+        
             //Responding from help menu
 
             if (userInput == "show tasks")
@@ -176,10 +198,10 @@ Simply type what you'd like to do!";
                 return "COMMAND_ACTIVITY_LOG";
             }
 
-            if (userInput == "quiz")
-            {
-                return "COMMAND_START_QUIZ";
-            }
+         if (userInput.Contains("quiz"))
+{
+    return "COMMAND_START_QUIZ";
+}
 
 
 
@@ -192,44 +214,39 @@ Simply type what you'd like to do!";
             }
 
 
-            //Start adding a task
-            if (userInput.Contains("add task"))
+            // ===============================
+            // CHAT TASK CREATION
+            // ===============================
+
+            if (userInput == "add task")
             {
                 waitingForTaskTitle = true;
 
-                return "Sure! What is the task title?";
+                return "Sure! What is the title of your task?";
             }
-            //(b) waiting for task title
+
             if (waitingForTaskTitle)
             {
                 currentTaskTitle = userInput;
 
                 waitingForTaskTitle = false;
-                waitingForTaskDescription = true;
+                waitingForTaskConfirmation = true;
 
-                return "Great! Now enter a description.";
+                return "Great! Type 'save' to save the task or 'cancel' to cancel.";
             }
-            //(c) waiting for description
-            if (waitingForTaskDescription)
+
+            if (waitingForTaskConfirmation)
             {
-                currentTaskDescription = userInput;
+                waitingForTaskConfirmation = false;
 
-                waitingForTaskDescription = false;
-                waitingForReminder = true;
-
-                return "Would you like a reminder? (yes/no)";
-            }
-            //(c) waiting for reminder
-            if (waitingForReminder)
-            {
-                waitingForReminder = false;
-
-                if (userInput == "yes")
+                if (userInput == "save")
                 {
-                    return "Please choose a reminder date using the Date Picker, then press Save Task.";
+                    return "COMMAND_SAVE_TASK";
                 }
 
-                return "Perfect! Press Save Task to store your task.";
+                currentTaskTitle = "";
+
+                return "Task creation cancelled.";
             }
 
 
@@ -261,6 +278,34 @@ Simply type what you'd like to do!";
                 }
             }
 
+            //greeting
+            if (userInput == "hello" ||
+    userInput == "hi" ||
+    userInput == "hey")
+            {
+                return "Hello! I'm your Cybersecurity Assistant. Type 'help' to see everything I can do.";
+            }
+            if (userInput.Contains("thank"))
+            {
+                return "You're welcome! Stay safe online.";
+            }
+            if (userInput == "bye" ||
+    userInput == "goodbye")
+            {
+                return "Goodbye! Stay cyber safe.";
+            }
+            if (userInput == "date")
+            {
+                return DateTime.Now.ToLongDateString();
+            }
+            if (userInput == "time")
+            {
+                return DateTime.Now.ToShortTimeString();
+            }
+            if (userInput.Contains("who are you"))
+            {
+                return "I'm CyberBot, your cybersecurity awareness assistant.";
+            }
 
             //Password section
             if (detectedTopic == "password")
@@ -292,8 +337,9 @@ Simply type what you'd like to do!";
             }
 
 
-          //Safe browsing section
-            else if (detectedTopic == "safe browsing") || detectedTopic == "browsing"
+            //Safe browsing section
+            // Safe browsing section
+            else if (detectedTopic == "safe browsing" || detectedTopic == "browsing")
             {
                 string response = safeBrowsingTips[random.Next(safeBrowsingTips.Length)];
 
@@ -303,10 +349,10 @@ Simply type what you'd like to do!";
                 }
 
                 lastTopic = "browsing";
-                return response; 
+                return response;
             }
 
-                //Greeting section
+            //Greeting section
             else if (userInput.Contains("how are you"))
             {
                 return "I'm functioning good and ready to help you stay safe online!";

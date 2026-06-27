@@ -1,7 +1,12 @@
 namespace ChatBot { 
+    using MySql.Data.MySqlClient;
     using System.Drawing;
     using System.Media;
+    using System.Threading.Tasks;
 
+
+
+   
     public partial class Form1 : Form
     {
 
@@ -24,12 +29,21 @@ namespace ChatBot {
 
         private CyberBot bot = new CyberBot();
 
+        // Handles database operations
+        private DatabaseHelper database = new DatabaseHelper();
+     
+
         //Collection to hold taskItem Objects or task storage
         private List<TaskItem> tasks = new List<TaskItem>();
-        // Quiz data
-        private string currentAnswer = "";
-        // Track score
+       
+
+        // =============================
+        // Quiz Variables
+        // =============================
+        private int quizQuestion = 0;
         private int quizScore = 0;
+        private bool quizRunning = false;
+        private string currentAnswer = "";
 
         public Form1()
         {
@@ -39,6 +53,7 @@ namespace ChatBot {
             PlayGreeting();
         }
 
+       
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -55,11 +70,26 @@ namespace ChatBot {
 
             string userMessage = txtUserInput.Text.Trim();
 
+            // =============================
+            // If the quiz is running,
+            // every message becomes an answer
+            // =============================
+            if (quizRunning)
+            {
+                CheckQuizAnswer(userMessage);
+
+                txtUserInput.Clear();
+                return;
+            }
+
+
             if (string.IsNullOrWhiteSpace(userMessage))
             {
                 MessageBox.Show("Please enter a message.");
                 return;
             }
+
+
 
             // Display user message
             AppendUserMessage(userMessage);
@@ -67,7 +97,35 @@ namespace ChatBot {
             // Get bot response
             string response = bot.GetResponse(userMessage);
             // Handle commands returned by the chatbot
-            if (response == "COMMAND_SHOW_TASKS")
+
+            if (response == "COMMAND_SAVE_TASK")
+            {
+                TaskItem task = new TaskItem
+                {
+                    Title = bot.PendingTaskTitle,
+                    ReminderDate = DateTime.Now,
+                    Completed = false
+                };
+
+                tasks.Add(task);
+
+                lstTasks.Items.Add(task);
+
+                ActivityLogger.Log("Task Added: " + task.Title);
+
+                AppendBotMessage("Task saved successfully!");
+
+                txtUserInput.Clear();
+
+                return;
+            }
+
+
+            if (response == "COMMAND_START_QUIZ")
+            {
+                StartQuiz();
+            }
+            else if (response == "COMMAND_SHOW_TASKS")
             {
                 btnShowTasks.PerformClick();
             }
@@ -75,18 +133,200 @@ namespace ChatBot {
             {
                 btnViewLog.PerformClick();
             }
-            else if (response == "COMMAND_START_QUIZ")
+            else if (response == "COMMAND_SAVE_TASK")
             {
-                btnStartQuiz.PerformClick();
+                TaskItem task = new TaskItem
+                {
+                    Title = bot.PendingTaskTitle,
+                    ReminderDate = DateTime.Now,
+                    Completed = false
+                };
+
+                tasks.Add(task);
+
+                lstTasks.Items.Add(task);
+
+                ActivityLogger.Log("Task Added: " + task.Title);
+
+                AppendBotMessage("Task saved successfully!");
             }
             else
             {
-                // Display bot response
                 AppendBotMessage(response);
             }
-            // Clear input box
-            txtUserInput.Clear();
+        }
+        private void StartQuiz()
+        {
+            quizRunning = true;
 
+            quizQuestion = 1;
+
+            quizScore = 0;
+
+            currentAnswer = "B";
+
+            AppendBotMessage(
+
+                "Welcome to CYBERSECURITY QUIZ\n\n" +
+
+                "Question 1/5\n\n" +
+
+                "What should you do if you receive a suspicious email?\n\n" +
+
+                "A) Click every link\n" +
+
+                "B) Verify the sender\n" +
+
+                "C) Ignore your antivirus\n\n" +
+
+                "Type A, B or C."
+
+            );
+
+            ActivityLogger.Log("Quiz Started");
+        }
+
+        private void CheckQuizAnswer(string answer)
+        {
+            answer = answer.Trim().ToUpper();
+
+            if (answer == currentAnswer)
+            {
+                quizScore++;
+
+                AppendBotMessage("Correct!");
+            }
+            else
+            {
+                AppendBotMessage("Incorrect ");
+            }
+
+            quizQuestion++;
+
+            switch (quizQuestion)
+            {
+
+                case 2:
+
+                    currentAnswer = "A";
+
+                    AppendBotMessage(
+
+                        "Question 2/5\n\n" +
+
+                        "HTTPS websites are...\n\n" +
+
+                        "A) More secure\n" +
+
+                        "B) Dangerous\n" +
+
+                        "C) Illegal"
+
+                    );
+
+                    break;
+
+                case 3:
+
+                    currentAnswer = "B";
+
+                    AppendBotMessage(
+
+                        "Question 3/5\n\n" +
+
+                        "Should you reuse passwords?\n\n" +
+
+                        "A) Yes\n" +
+
+                        "B) No"
+
+                    );
+
+                    break;
+
+                case 4:
+
+                    currentAnswer = "A";
+
+                    AppendBotMessage(
+
+                        "Question 4/5\n\n" +
+
+                        "Two-Factor Authentication improves security.\n\n" +
+
+                        "A) True\n" +
+
+                        "B) False"
+
+                    );
+
+                    break;
+
+                case 5:
+
+                    currentAnswer = "B";
+
+                    AppendBotMessage(
+
+                        "Question 5/5\n\n" +
+
+                        "Phishing attacks try to...\n\n" +
+
+                        "A) Speed up the internet\n" +
+
+                        "B) Steal information\n" +
+
+                        "C) Improve passwords"
+
+                    );
+
+                    break;
+
+                default:
+
+                    quizRunning = false;
+
+                    AppendBotMessage(
+
+                        "QUIZ COMPLETE!\n\n" +
+
+                        "Your Score: "
+
+                        + quizScore +
+
+                        "/5\n\n" +
+
+                        GetQuizFeedback()
+
+                    );
+
+                    ActivityLogger.Log(
+
+                        "Quiz Finished. Score: "
+
+                        + quizScore +
+
+                        "/5"
+
+                    );
+
+                    break;
+
+            }
+        }
+
+        private string GetQuizFeedback()
+        {
+            if (quizScore == 5)
+                return "Outstanding! You have excellent cybersecurity knowledge.";
+
+            if (quizScore >= 4)
+                return "Great job! You know cybersecurity well.";
+
+            if (quizScore >= 3)
+                return "Good effort. Keep learning.";
+
+            return "You should revise cybersecurity basics.";
         }
 
         //Appending text messages to the left and right of the chat
@@ -121,49 +361,51 @@ namespace ChatBot {
         }
 
         private void btnAddTask_Click(object sender, EventArgs e)
-        {
+        {// Check if textbox is empty
 
-            // Checking if the user entered a task
-            if (string.IsNullOrWhiteSpace(txtTask.Text))
-            {
-                MessageBox.Show("Please enter a task.");
-                return;
-            }
+        if (string.IsNullOrWhiteSpace(txtTask.Text))
+                {
+                    MessageBox.Show("Please enter a task.");
+                    return;
+                }
 
-            // Creating a new Task Item 
+            // Create a new task
             TaskItem task = new TaskItem
             {
                 Title = txtTask.Text,
-
-                // Default description
                 Description = "Cybersecurity Task",
-
-                // Date chosen by user
                 ReminderDate = dtpReminder.Value,
-
-                IsCompleted = false
+                Completed = false
             };
 
+            try
+            {
+                try
+                {
+                    database.AddTask(task);
 
-            //Storing task in List<TaskItem>
-            tasks.Add(task);
+                    MessageBox.Show("DatabaseHelper finished.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                // Show in ListBox
+                lstTasks.Items.Add(task);
 
-            //Displaying task in ListBox
-            lstTasks.Items.Add($"{task.Title} (Due: {task.ReminderDate.ToShortDateString()})"
-);
+                // Log activity
+                ActivityLogger.Log("Task Added: " + task.Title);
 
-            // Record activity in the Activity Logger
-            ActivityLogger.Log("Task Added: " + task.Title);
+                txtTask.Clear();
 
-            // Clear textbox for next task
-            txtTask.Clear();
-
-            //Confirmation that task was saved
-            MessageBox.Show("Task added successfully!");
-
-
-
+                MessageBox.Show("Task added successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
+
 
         private void btnCompleteTask_Click(object sender, EventArgs e)
         {
@@ -179,7 +421,7 @@ namespace ChatBot {
             TaskItem selectedTask = tasks[lstTasks.SelectedIndex];
 
             // Mark task as completed
-            selectedTask.IsCompleted = true;
+            selectedTask.Completed = true;
 
             // Update ListBox display
             lstTasks.Items[lstTasks.SelectedIndex] =
@@ -222,11 +464,8 @@ namespace ChatBot {
             );
 
             MessageBox.Show("Task deleted.");
-
-
-
-
         }
+
 
         private void btnViewLog_Click(object sender, EventArgs e)
         {
@@ -254,7 +493,7 @@ namespace ChatBot {
             );
         }
 
-        private void button1_Click(object sender, EventArgs e)
+      /*  private void button1_Click(object sender, EventArgs e)
         {
 
             string userAnswer =
@@ -271,6 +510,73 @@ namespace ChatBot {
                 ActivityLogger.Log(
                     "Quiz Question Answered Correctly"
                 );
+
+                quizQuestion++;
+
+                switch (quizQuestion)
+                {
+                    case 2:
+
+                        lblQuestion.Text =
+                        "Question 2\n\n" +
+                        "HTTPS websites are...\n\n" +
+                        "A) Safer\n" +
+                        "B) Dangerous\n" +
+                        "C) Illegal";
+
+                        currentAnswer = "A";
+
+                        break;
+
+                    case 3:
+
+                        lblQuestion.Text =
+                        "Question 3\n\n" +
+                        "Should you reuse passwords?\n\n" +
+                        "A) Yes\n" +
+                        "B) No";
+
+                        currentAnswer = "B";
+
+                        break;
+
+                    case 4:
+
+                        lblQuestion.Text =
+                        "Question 4\n\n" +
+                        "Two-factor authentication improves security.\n\n" +
+                        "A) True\n" +
+                        "B) False";
+
+                        currentAnswer = "A";
+
+                        break;
+
+                    case 5:
+
+                        lblQuestion.Text =
+                        "Question 5\n\n" +
+                        "Phishing attacks usually try to...\n\n" +
+                        "A) Protect data\n" +
+                        "B) Steal information\n" +
+                        "C) Speed up internet";
+
+                        currentAnswer = "B";
+
+                        break;
+
+                    default:
+
+                        lblQuestion.Text =
+                        "Quiz Finished!\n\nFinal Score: " +
+                        quizScore +
+                        "/5";
+
+                        ActivityLogger.Log(
+                        "Quiz Finished");
+
+                        break;
+                }
             }
             else
             {
@@ -286,37 +592,45 @@ namespace ChatBot {
 
             txtQuizAnswer.Clear();
 
-        }
-
-        private void btnStartQuiz_Click(object sender, EventArgs e)
+        }*/
+/*  private void btnStartQuiz_Click(object sender, EventArgs e)
         {
             // Start the quiz by displaying the first question
+            quizQuestion = 1;
+
             lblQuestion.Text =
-                "What should you do if you receive a suspicious email?\n\n" +
-                "A) Click the link immediately\n" +
-                "B) Verify the sender first\n" +
-                "C) Forward it to everyone";
+            "Question 1\n\n" +
+            "What should you do if you receive a suspicious email?\n\n" +
+            "A) Click it\n" +
+            "B) Verify the sender\n" +
+            "C) Ignore antivirus";
 
             currentAnswer = "B";
 
             ActivityLogger.Log("Quiz Started");
-        }
+        }*/
 
         private void btnShowTasks_Click(object sender, EventArgs e)
         {
             if (tasks.Count == 0)
             {
-                AppendBotMessage("You currently have no tasks.");
+                AppendBotMessage("You have no tasks.");
                 return;
             }
 
-            AppendBotMessage("Here are your current tasks:");
+            AppendBotMessage("YOUR TASKS");
+
+            int count = 1;
 
             foreach (TaskItem task in tasks)
             {
                 AppendBotMessage(
-                    $"- {task.Title} | Due: {task.ReminderDate.ToShortDateString()} | Completed: {task.Completed}"
-                );
+                    count + ". " +
+                    task.Title +
+                    " | " +
+                    (task.Completed ? "Completed" : "Pending"));
+
+                count++;
             }
         }
     }

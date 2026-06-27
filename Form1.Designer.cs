@@ -43,9 +43,6 @@
             dtpReminder = new DateTimePicker();
             btnViewLog = new Button();
             lblQuestion = new Label();
-            txtQuizAnswer = new TextBox();
-            btnSubmitAnswer = new Button();
-            btnStartQuiz = new Button();
             btnShowTasks = new Button();
             SuspendLayout();
             // 
@@ -192,38 +189,11 @@
             // 
             lblQuestion.AutoSize = true;
             lblQuestion.ForeColor = Color.Red;
-            lblQuestion.Location = new Point(695, 304);
+            lblQuestion.Location = new Point(742, 78);
             lblQuestion.Name = "lblQuestion";
             lblQuestion.Size = new Size(131, 20);
             lblQuestion.TabIndex = 14;
             lblQuestion.Text = "Cybersecurity Quiz";
-            // 
-            // txtQuizAnswer
-            // 
-            txtQuizAnswer.Location = new Point(695, 395);
-            txtQuizAnswer.Name = "txtQuizAnswer";
-            txtQuizAnswer.Size = new Size(53, 27);
-            txtQuizAnswer.TabIndex = 15;
-            // 
-            // btnSubmitAnswer
-            // 
-            btnSubmitAnswer.Location = new Point(763, 395);
-            btnSubmitAnswer.Name = "btnSubmitAnswer";
-            btnSubmitAnswer.Size = new Size(72, 29);
-            btnSubmitAnswer.TabIndex = 16;
-            btnSubmitAnswer.Text = "Submit";
-            btnSubmitAnswer.UseVisualStyleBackColor = true;
-            btnSubmitAnswer.Click += button1_Click;
-            // 
-            // btnStartQuiz
-            // 
-            btnStartQuiz.Location = new Point(695, 346);
-            btnStartQuiz.Name = "btnStartQuiz";
-            btnStartQuiz.Size = new Size(131, 26);
-            btnStartQuiz.TabIndex = 17;
-            btnStartQuiz.Text = "Start Quiz";
-            btnStartQuiz.UseVisualStyleBackColor = true;
-            btnStartQuiz.Click += btnStartQuiz_Click;
             // 
             // btnShowTasks
             // 
@@ -242,9 +212,6 @@
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1340, 589);
             Controls.Add(btnShowTasks);
-            Controls.Add(btnStartQuiz);
-            Controls.Add(btnSubmitAnswer);
-            Controls.Add(txtQuizAnswer);
             Controls.Add(lblQuestion);
             Controls.Add(btnViewLog);
             Controls.Add(dtpReminder);
@@ -285,9 +252,6 @@
         private DateTimePicker dtpReminder;
         private Button btnViewLog;
         private Label lblQuestion;
-        private TextBox txtQuizAnswer;
-        private Button btnSubmitAnswer;
-        private Button btnStartQuiz;
         private Button btnShowTasks;
     }
 }

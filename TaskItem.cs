@@ -24,6 +24,13 @@ namespace ChatBot
             Completed = false;
         }
 
+
+        // Empty constructor required when creating an object first and setting properties later
+        public TaskItem()
+        {
+        }
+
+
         // Display inside ListBox
         public override string ToString()
         {

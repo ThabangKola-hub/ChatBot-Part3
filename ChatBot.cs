@@ -146,6 +146,43 @@ namespace ChatBot
             userInput = userInput.ToLower();
             string detectedTopic = DetectTopic(userInput);
 
+            // Help Menu
+            if (userInput == "help")
+            {
+                return
+            @"I can help you with:
+
+• Password safety
+• Phishing awareness
+• Safe browsing
+• Add task
+• Show tasks
+• Complete task
+• Delete task
+• Quiz
+• Activity log
+
+Simply type what you'd like to do!";
+            }
+            //Responding from help menu
+
+            if (userInput == "show tasks")
+            {
+                return "COMMAND_SHOW_TASKS";
+            }
+
+            if (userInput == "activity log")
+            {
+                return "COMMAND_ACTIVITY_LOG";
+            }
+
+            if (userInput == "quiz")
+            {
+                return "COMMAND_START_QUIZ";
+            }
+
+
+
             //Calling sentiment detection
             string sentimentResponse = DetectSentiment(userInput);
 

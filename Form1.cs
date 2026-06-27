@@ -66,10 +66,24 @@ namespace ChatBot {
 
             // Get bot response
             string response = bot.GetResponse(userMessage);
-
-            // Display bot response
-            AppendBotMessage(response);
-
+            // Handle commands returned by the chatbot
+            if (response == "COMMAND_SHOW_TASKS")
+            {
+                btnShowTasks.PerformClick();
+            }
+            else if (response == "COMMAND_ACTIVITY_LOG")
+            {
+                btnViewLog.PerformClick();
+            }
+            else if (response == "COMMAND_START_QUIZ")
+            {
+                btnStartQuiz.PerformClick();
+            }
+            else
+            {
+                // Display bot response
+                AppendBotMessage(response);
+            }
             // Clear input box
             txtUserInput.Clear();
 
@@ -286,6 +300,24 @@ namespace ChatBot {
             currentAnswer = "B";
 
             ActivityLogger.Log("Quiz Started");
-    }
+        }
+
+        private void btnShowTasks_Click(object sender, EventArgs e)
+        {
+            if (tasks.Count == 0)
+            {
+                AppendBotMessage("You currently have no tasks.");
+                return;
+            }
+
+            AppendBotMessage("Here are your current tasks:");
+
+            foreach (TaskItem task in tasks)
+            {
+                AppendBotMessage(
+                    $"- {task.Title} | Due: {task.ReminderDate.ToShortDateString()} | Completed: {task.Completed}"
+                );
+            }
+        }
     }
 }

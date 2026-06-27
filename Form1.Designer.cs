@@ -46,6 +46,7 @@
             txtQuizAnswer = new TextBox();
             btnSubmitAnswer = new Button();
             btnStartQuiz = new Button();
+            btnShowTasks = new Button();
             SuspendLayout();
             // 
             // btnSend
@@ -224,12 +225,23 @@
             btnStartQuiz.UseVisualStyleBackColor = true;
             btnStartQuiz.Click += btnStartQuiz_Click;
             // 
+            // btnShowTasks
+            // 
+            btnShowTasks.Location = new Point(399, 548);
+            btnShowTasks.Name = "btnShowTasks";
+            btnShowTasks.Size = new Size(94, 29);
+            btnShowTasks.TabIndex = 18;
+            btnShowTasks.Text = "Show Task";
+            btnShowTasks.UseVisualStyleBackColor = true;
+            btnShowTasks.Click += btnShowTasks_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1340, 589);
+            Controls.Add(btnShowTasks);
             Controls.Add(btnStartQuiz);
             Controls.Add(btnSubmitAnswer);
             Controls.Add(txtQuizAnswer);
@@ -276,5 +288,6 @@
         private TextBox txtQuizAnswer;
         private Button btnSubmitAnswer;
         private Button btnStartQuiz;
+        private Button btnShowTasks;
     }
 }

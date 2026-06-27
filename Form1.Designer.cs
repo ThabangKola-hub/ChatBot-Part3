@@ -42,12 +42,16 @@
             btnDeleteTask = new Button();
             dtpReminder = new DateTimePicker();
             btnViewLog = new Button();
+            lblQuestion = new Label();
+            txtQuizAnswer = new TextBox();
+            btnSubmitAnswer = new Button();
+            btnStartQuiz = new Button();
             SuspendLayout();
             // 
             // btnSend
             // 
             btnSend.ForeColor = Color.Black;
-            btnSend.Location = new Point(408, 350);
+            btnSend.Location = new Point(399, 504);
             btnSend.Name = "btnSend";
             btnSend.Size = new Size(94, 29);
             btnSend.TabIndex = 0;
@@ -73,17 +77,17 @@
             // 
             richTextBox1.BackColor = SystemColors.AppWorkspace;
             richTextBox1.ForeColor = Color.Black;
-            richTextBox1.Location = new Point(12, 37);
+            richTextBox1.Location = new Point(12, 131);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(722, 307);
+            richTextBox1.Size = new Size(581, 344);
             richTextBox1.TabIndex = 2;
             richTextBox1.Text = "";
             richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // txtUserInput
             // 
-            txtUserInput.Location = new Point(12, 350);
+            txtUserInput.Location = new Point(12, 504);
             txtUserInput.Name = "txtUserInput";
             txtUserInput.Size = new Size(381, 27);
             txtUserInput.TabIndex = 3;
@@ -91,7 +95,7 @@
             // btnClear
             // 
             btnClear.ForeColor = Color.Black;
-            btnClear.Location = new Point(517, 350);
+            btnClear.Location = new Point(499, 504);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(94, 29);
             btnClear.TabIndex = 4;
@@ -101,7 +105,7 @@
             // btnExit
             // 
             btnExit.ForeColor = Color.Black;
-            btnExit.Location = new Point(640, 350);
+            btnExit.Location = new Point(12, 548);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(94, 29);
             btnExit.TabIndex = 5;
@@ -114,7 +118,7 @@
             label2.AutoSize = true;
             label2.BorderStyle = BorderStyle.Fixed3D;
             label2.ForeColor = Color.Cyan;
-            label2.Location = new Point(752, 116);
+            label2.Location = new Point(1137, 36);
             label2.Name = "label2";
             label2.Size = new Size(110, 22);
             label2.TabIndex = 6;
@@ -122,15 +126,15 @@
             // 
             // txtTask
             // 
-            txtTask.Location = new Point(880, 116);
+            txtTask.Location = new Point(1018, 119);
             txtTask.Name = "txtTask";
-            txtTask.Size = new Size(310, 27);
+            txtTask.Size = new Size(210, 27);
             txtTask.TabIndex = 7;
             // 
             // btnAddTask
             // 
             btnAddTask.ForeColor = Color.Black;
-            btnAddTask.Location = new Point(1196, 116);
+            btnAddTask.Location = new Point(1234, 118);
             btnAddTask.Name = "btnAddTask";
             btnAddTask.Size = new Size(94, 29);
             btnAddTask.TabIndex = 8;
@@ -141,14 +145,14 @@
             // lstTasks
             // 
             lstTasks.FormattingEnabled = true;
-            lstTasks.Location = new Point(880, 168);
+            lstTasks.Location = new Point(1018, 164);
             lstTasks.Name = "lstTasks";
             lstTasks.Size = new Size(310, 164);
             lstTasks.TabIndex = 9;
             // 
             // btnCompleteTask
             // 
-            btnCompleteTask.Location = new Point(880, 348);
+            btnCompleteTask.Location = new Point(1018, 343);
             btnCompleteTask.Name = "btnCompleteTask";
             btnCompleteTask.Size = new Size(130, 29);
             btnCompleteTask.TabIndex = 10;
@@ -158,9 +162,9 @@
             // 
             // btnDeleteTask
             // 
-            btnDeleteTask.Location = new Point(1096, 350);
+            btnDeleteTask.Location = new Point(1222, 343);
             btnDeleteTask.Name = "btnDeleteTask";
-            btnDeleteTask.Size = new Size(94, 29);
+            btnDeleteTask.Size = new Size(106, 29);
             btnDeleteTask.TabIndex = 11;
             btnDeleteTask.Text = "Delete Task";
             btnDeleteTask.UseVisualStyleBackColor = true;
@@ -168,20 +172,57 @@
             // 
             // dtpReminder
             // 
-            dtpReminder.Location = new Point(940, 72);
+            dtpReminder.Location = new Point(1078, 73);
             dtpReminder.Name = "dtpReminder";
             dtpReminder.Size = new Size(250, 27);
             dtpReminder.TabIndex = 12;
             // 
             // btnViewLog
             // 
-            btnViewLog.Location = new Point(893, 447);
+            btnViewLog.Location = new Point(1018, 393);
             btnViewLog.Name = "btnViewLog";
-            btnViewLog.Size = new Size(191, 29);
+            btnViewLog.Size = new Size(310, 29);
             btnViewLog.TabIndex = 13;
             btnViewLog.Text = "View Activity Log";
             btnViewLog.UseVisualStyleBackColor = true;
             btnViewLog.Click += btnViewLog_Click;
+            // 
+            // lblQuestion
+            // 
+            lblQuestion.AutoSize = true;
+            lblQuestion.ForeColor = Color.Red;
+            lblQuestion.Location = new Point(695, 304);
+            lblQuestion.Name = "lblQuestion";
+            lblQuestion.Size = new Size(131, 20);
+            lblQuestion.TabIndex = 14;
+            lblQuestion.Text = "Cybersecurity Quiz";
+            // 
+            // txtQuizAnswer
+            // 
+            txtQuizAnswer.Location = new Point(695, 395);
+            txtQuizAnswer.Name = "txtQuizAnswer";
+            txtQuizAnswer.Size = new Size(53, 27);
+            txtQuizAnswer.TabIndex = 15;
+            // 
+            // btnSubmitAnswer
+            // 
+            btnSubmitAnswer.Location = new Point(763, 395);
+            btnSubmitAnswer.Name = "btnSubmitAnswer";
+            btnSubmitAnswer.Size = new Size(72, 29);
+            btnSubmitAnswer.TabIndex = 16;
+            btnSubmitAnswer.Text = "Submit";
+            btnSubmitAnswer.UseVisualStyleBackColor = true;
+            btnSubmitAnswer.Click += button1_Click;
+            // 
+            // btnStartQuiz
+            // 
+            btnStartQuiz.Location = new Point(695, 346);
+            btnStartQuiz.Name = "btnStartQuiz";
+            btnStartQuiz.Size = new Size(131, 26);
+            btnStartQuiz.TabIndex = 17;
+            btnStartQuiz.Text = "Start Quiz";
+            btnStartQuiz.UseVisualStyleBackColor = true;
+            btnStartQuiz.Click += btnStartQuiz_Click;
             // 
             // Form1
             // 
@@ -189,6 +230,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1340, 589);
+            Controls.Add(btnStartQuiz);
+            Controls.Add(btnSubmitAnswer);
+            Controls.Add(txtQuizAnswer);
+            Controls.Add(lblQuestion);
             Controls.Add(btnViewLog);
             Controls.Add(dtpReminder);
             Controls.Add(btnDeleteTask);
@@ -227,5 +272,9 @@
         private Button btnDeleteTask;
         private DateTimePicker dtpReminder;
         private Button btnViewLog;
+        private Label lblQuestion;
+        private TextBox txtQuizAnswer;
+        private Button btnSubmitAnswer;
+        private Button btnStartQuiz;
     }
 }

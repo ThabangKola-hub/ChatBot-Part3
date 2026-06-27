@@ -26,6 +26,10 @@ namespace ChatBot {
 
         //Collection to hold taskItem Objects or task storage
         private List<TaskItem> tasks = new List<TaskItem>();
+        // Quiz data
+        private string currentAnswer = "";
+        // Track score
+        private int quizScore = 0;
 
         public Form1()
         {
@@ -235,5 +239,53 @@ namespace ChatBot {
                 "Activity Log"
             );
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            string userAnswer =
+        txtQuizAnswer.Text.Trim().ToUpper();
+
+            if (userAnswer == currentAnswer)
+            {
+                quizScore++;
+
+                MessageBox.Show(
+                    "Correct! Score: " + quizScore
+                );
+
+                ActivityLogger.Log(
+                    "Quiz Question Answered Correctly"
+                );
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Incorrect. The correct answer was "
+                    + currentAnswer
+                );
+
+                ActivityLogger.Log(
+                    "Quiz Question Answered Incorrectly"
+                );
+            }
+
+            txtQuizAnswer.Clear();
+
+        }
+
+        private void btnStartQuiz_Click(object sender, EventArgs e)
+        {
+            // Start the quiz by displaying the first question
+            lblQuestion.Text =
+                "What should you do if you receive a suspicious email?\n\n" +
+                "A) Click the link immediately\n" +
+                "B) Verify the sender first\n" +
+                "C) Forward it to everyone";
+
+            currentAnswer = "B";
+
+            ActivityLogger.Log("Quiz Started");
+    }
     }
 }

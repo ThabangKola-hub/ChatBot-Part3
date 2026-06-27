@@ -4,11 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Temp
+
 namespace ChatBot
 {
     public class CyberBot
     {
+
+
+        //Conversation State
+        private bool waitingForTaskTitle = false;
+        private bool waitingForTaskDescription = false;
+        private bool waitingForReminder = false;
+
+        //Temporary storage
+        private string currentTaskTitle = "";
+        private string currentTaskDescription = "";
+
+
+
         private Random random = new Random();
 
         //Memory
@@ -38,6 +51,48 @@ namespace ChatBot
             "Keep your browser updated regularly."
         };
 
+        // Cybersecurity Knowledge Base
+        private Dictionary<string, string[]> knowledgeBase =
+            new Dictionary<string, string[]>()
+        {
+    {
+        "password",
+        new string[]
+        {
+            "password",
+            "passwords",
+            "strong password",
+            "weak password",
+            "forgot password",
+            "password security"
+        }
+    },
+
+    {
+        "phishing",
+        new string[]
+        {
+            "phishing",
+            "fake email",
+            "scam email",
+            "email scam",
+            "suspicious email"
+        }
+    },
+
+    {
+        "safe browsing",
+        new string[]
+        {
+            "safe browsing",
+            "secure browsing",
+            "https",
+            "unsafe website",
+            "web browsing"
+        }
+    }
+        };
+
         //Conversation overflow
         private string passwordExplanation =
     "Strong passwords help protect your accounts from hackers. A good password" +
@@ -50,6 +105,23 @@ namespace ChatBot
         private string browsingExplanation =
             "Safe browsing means avoiding suspicious websites, keeping " +
             "software updated, and not downloading unknown files from the internet.";
+
+        // Detects the user's intended topic
+        private string DetectTopic(string input)
+        {
+            foreach (var topic in knowledgeBase)
+            {
+                foreach (string keyword in topic.Value)
+                {
+                    if (input.Contains(keyword))
+                    {
+                        return topic.Key;
+                    }
+                }
+            }
+
+            return "";
+        }
 
         //Emotion detection or sentiment detection
         private string DetectSentiment(string input)
@@ -72,6 +144,7 @@ namespace ChatBot
         public string GetResponse(string userInput)
         {
             userInput = userInput.ToLower();
+            string detectedTopic = DetectTopic(userInput);
 
             //Calling sentiment detection
             string sentimentResponse = DetectSentiment(userInput);
@@ -80,6 +153,49 @@ namespace ChatBot
             {
                 return sentimentResponse;
             }
+
+
+            //Start adding a task
+            if (userInput.Contains("add task"))
+            {
+                waitingForTaskTitle = true;
+
+                return "Sure! What is the task title?";
+            }
+            //(b) waiting for task title
+            if (waitingForTaskTitle)
+            {
+                currentTaskTitle = userInput;
+
+                waitingForTaskTitle = false;
+                waitingForTaskDescription = true;
+
+                return "Great! Now enter a description.";
+            }
+            //(c) waiting for description
+            if (waitingForTaskDescription)
+            {
+                currentTaskDescription = userInput;
+
+                waitingForTaskDescription = false;
+                waitingForReminder = true;
+
+                return "Would you like a reminder? (yes/no)";
+            }
+            //(c) waiting for reminder
+            if (waitingForReminder)
+            {
+                waitingForReminder = false;
+
+                if (userInput == "yes")
+                {
+                    return "Please choose a reminder date using the Date Picker, then press Save Task.";
+                }
+
+                return "Perfect! Press Save Task to store your task.";
+            }
+
+
 
             //Conversation overflow detection
             if (userInput.Contains("tell me more") ||
@@ -110,8 +226,8 @@ namespace ChatBot
 
 
             //Password section
-            if (userInput.Contains("password"))
-                {
+            if (detectedTopic == "password")
+            {
                     string response = passwordTips[random.Next(passwordTips.Length)];
 
                     if (lastTopic == "password")
@@ -124,8 +240,8 @@ namespace ChatBot
 
             }
 
-           //Phishing section
-            else if (userInput.Contains("phishing"))
+            //Phishing section
+            if (detectedTopic == "phishing")
             {
                 string response = phishingTips[random.Next(phishingTips.Length)];
 
@@ -140,7 +256,7 @@ namespace ChatBot
 
 
           //Safe browsing section
-            else if (userInput.Contains("safe browsing") || userInput.Contains("browsing"))
+            else if (detectedTopic == "safe browsing") || detectedTopic == "browsing"
             {
                 string response = safeBrowsingTips[random.Next(safeBrowsingTips.Length)];
 
